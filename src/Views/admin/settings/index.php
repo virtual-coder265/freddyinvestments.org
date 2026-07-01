@@ -5,6 +5,7 @@ $tabs = [
     'general' => 'General',
     'contact' => 'Contact',
     'social' => 'Social & SEO',
+    'maintenance' => 'Maintenance',
 ];
 ?>
 
@@ -51,6 +52,14 @@ $tabs = [
                 <div class="admin-field admin-grid-span-2"><label>Address</label><textarea name="company_address" class="admin-textarea" rows="2"><?= htmlspecialchars($settings['company_address'] ?? '') ?></textarea></div>
                 <div class="admin-field admin-grid-span-2"><label>Business Hours</label><textarea name="business_hours" class="admin-textarea" rows="3"><?= htmlspecialchars($settings['business_hours'] ?? '') ?></textarea></div>
             </div>
+        <?php elseif ($activeTab === 'maintenance'): ?>
+            <p style="font-size:.875rem;color:#64748b;margin:0 0 1rem;">
+                Repairs text stored with broken ampersands (e.g. <code>&amp;amp;</code> showing on the site instead of <code>&amp;</code>).
+                Safe to run more than once.
+            </p>
+            <button type="submit" formaction="<?= url('admin/settings/fix-encoded-content') ?>" class="admin-btn admin-btn-primary">
+                <i class="fas fa-wrench"></i> Repair Encoded Ampersands
+            </button>
         <?php else: ?>
             <div class="admin-grid-2">
                 <div class="admin-field"><label>Facebook URL</label><input type="url" name="social_facebook" value="<?= htmlspecialchars($settings['social_facebook'] ?? '') ?>" class="admin-input"></div>
@@ -62,9 +71,11 @@ $tabs = [
             </div>
         <?php endif; ?>
 
+        <?php if ($activeTab !== 'maintenance'): ?>
         <div class="admin-save-bar" style="margin:1.5rem -1.5rem -1.5rem;">
             <span style="font-size:.8125rem;color:#64748b;">Settings apply site-wide.</span>
             <button type="submit" class="admin-btn admin-btn-primary"><i class="fas fa-save"></i> Save Settings</button>
         </div>
+        <?php endif; ?>
     </form>
 </div>

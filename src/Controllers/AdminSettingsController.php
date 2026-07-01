@@ -49,4 +49,18 @@ class AdminSettingsController extends AdminController {
         $tab = sanitize($_POST['tab'] ?? 'general');
         $this->redirect('admin/settings?tab=' . $tab, 'Settings updated successfully.');
     }
+
+    public function fixEncodedContent() {
+        $this->requirePost();
+        $this->validateCsrfOrRedirect('admin/settings?tab=maintenance');
+
+        $count = fix_encoded_content();
+        AuditLog::record('maintenance', 'content', null, "Fixed {$count} encoded text field(s)");
+        $this->redirect(
+            'admin/settings?tab=maintenance',
+            $count > 0
+                ? "Repaired {$count} text field(s) with broken ampersands."
+                : 'No encoded ampersands found — content is already clean.'
+        );
+    }
 }

@@ -178,6 +178,55 @@ function normalize_stored_text($value) {
 }
 
 /**
+ * Repair HTML entity encoding stored in CMS/content tables.
+ * Safe to run multiple times; returns the number of fields updated.
+ */
+function fix_encoded_content() {
+    $db = \App\Database\Database::getInstance();
+    $updated = 0;
+
+    $rows = $db->fetchAll('SELECT id, field_value FROM content_sections WHERE field_value LIKE ?', ['%&%']);
+    foreach ($rows as $row) {
+        $fixed = normalize_stored_text($row['field_value']);
+        if ($fixed !== $row['field_value']) {
+            $db->update('content_sections', ['field_value' => $fixed], 'id = ?', [$row['id']]);
+            $updated++;
+        }
+    }
+
+    $settings = $db->fetchAll('SELECT id, setting_value FROM business_settings WHERE setting_value LIKE ?', ['%&%']);
+    foreach ($settings as $row) {
+        $fixed = normalize_stored_text($row['setting_value']);
+        if ($fixed !== $row['setting_value']) {
+            $db->update('business_settings', ['setting_value' => $fixed], 'id = ?', [$row['id']]);
+            $updated++;
+        }
+    }
+
+    $tables = [
+        'services' => ['name', 'slug', 'description', 'icon'],
+        'projects' => ['title', 'slug', 'category', 'category_label', 'description', 'location', 'fallback_image'],
+        'quotes' => ['client_name', 'client_company', 'quote_text'],
+        'tips' => ['title', 'slug', 'category'],
+    ];
+
+    foreach ($tables as $table => $textColumns) {
+        foreach ($textColumns as $column) {
+            $rows = $db->fetchAll("SELECT id, {$column} FROM {$table} WHERE {$column} LIKE ?", ['%&%']);
+            foreach ($rows as $row) {
+                $fixed = normalize_stored_text($row[$column]);
+                if ($fixed !== $row[$column]) {
+                    $db->update($table, [$column => $fixed], 'id = ?', [$row['id']]);
+                    $updated++;
+                }
+            }
+        }
+    }
+
+    return $updated;
+}
+
+/**
  * Allow basic HTML for rich text CMS fields.
  */
 function sanitize_html($html) {

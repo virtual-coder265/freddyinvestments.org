@@ -96,6 +96,7 @@ $router->post('admin/messages/{id}/delete', 'App\Controllers\AdminMessagesContro
 
 $router->get('admin/settings', 'App\Controllers\AdminSettingsController@index');
 $router->post('admin/settings/update', 'App\Controllers\AdminSettingsController@update');
+$router->post('admin/settings/fix-encoded-content', 'App\Controllers\AdminSettingsController@fixEncodedContent');
 
 $router->get('admin/activity', 'App\Controllers\Admin\AdminActivityController@index');
 
