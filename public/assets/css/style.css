@@ -1,0 +1,325 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+
+/* Main CSS Variables aligned to prototype.png */
+:root {
+    --font-sans: 'Inter', sans-serif;
+    --font-display: 'Outfit', sans-serif;
+    
+    /* Clean Corporate & Luxury Palette */
+    --color-forest-900: #0a3329;       /* Main Deep Forest Green */
+    --color-forest-800: #0d4235;       /* Lighter Forest Green */
+    --color-forest-950: #051c17;       /* Darkest Obsidian Green */
+    --color-gold-500: #c5a880;         /* Primary Gold / Luxury Brass Accent */
+    --color-gold-400: #d0bd9f;         /* Lighter Gold Accent */
+    --color-sage-50: #f4f6f5;          /* Alternating Light sage sections */
+    --color-sage-100: #e7ecea;         /* Sage borders and separators */
+    --color-green-accent: #16a34a;     /* Vivid checkmark green */
+}
+
+html {
+    scroll-behavior: smooth;
+    background-color: #ffffff;
+}
+
+body {
+    font-family: var(--font-sans);
+    color: #334155; /* slate-700 */
+    background-color: #ffffff;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    color: var(--color-forest-900);
+}
+
+/* Header Top Bar Contact Styles */
+.top-contact-bar {
+    background-color: var(--color-forest-900);
+    color: #e2e8f0;
+    font-size: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* White Corporate Navigation Bar */
+.corporate-nav {
+    background-color: #ffffff;
+    border-bottom: 1px solid var(--color-sage-100);
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03);
+}
+
+.nav-link-active {
+    color: var(--color-forest-900) !important;
+    border-bottom: 3px solid var(--color-forest-800);
+}
+
+/* Hero Section Overlay for Luxury feel */
+.hero-overlay-dark {
+    background: linear-gradient(to right, rgba(5, 28, 23, 0.85) 0%, rgba(5, 28, 23, 0.4) 50%, rgba(5, 28, 23, 0.8) 100%),
+                radial-gradient(circle at center, rgba(5, 28, 23, 0.1) 0%, rgba(5, 28, 23, 0.85) 100%);
+}
+
+.hero-slider {
+    pointer-events: none;
+}
+
+.hero-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1.4s ease;
+}
+
+.hero-slide.is-active {
+    opacity: 1;
+}
+
+.hero-slide-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0.62;
+    transform: scale(1.04);
+    transition: transform 6.5s ease;
+    will-change: transform;
+}
+
+.hero-slide.is-active .hero-slide-image {
+    transform: scale(1.12);
+}
+
+.hero-slider.hero-slider-reduced-motion .hero-slide {
+    transition-duration: 0.45s;
+}
+
+.hero-slider.hero-slider-reduced-motion .hero-slide-image,
+.hero-slider.hero-slider-reduced-motion .hero-slide.is-active .hero-slide-image {
+    transform: scale(1.02);
+    transition: none;
+}
+
+.text-gold {
+    color: var(--color-gold-500);
+}
+
+.bg-forest-solid {
+    background-color: var(--color-forest-900);
+    color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.bg-forest-solid:hover {
+    background-color: var(--color-forest-800);
+    transform: translateY(-1px);
+}
+
+.border-forest-btn {
+    border: 2px solid var(--color-forest-900);
+    color: var(--color-forest-900);
+    transition: all 0.3s ease;
+}
+
+.border-forest-btn:hover {
+    background-color: var(--color-forest-900);
+    color: #ffffff;
+}
+
+/* Floating Metrics Bar below Hero */
+.floating-metrics-bar {
+    background-color: #ffffff;
+    border-radius: 1.25rem;
+    box-shadow: 0 15px 40px -10px rgba(10, 51, 41, 0.08), 0 0 1px 1px rgba(10, 51, 41, 0.03);
+    border: 1px solid rgba(10, 51, 41, 0.05);
+}
+
+.metric-divider {
+    border-right: 1px solid var(--color-sage-100);
+}
+
+/* double stacked images style welcome */
+.welcome-image-stack {
+    position: relative;
+    padding-bottom: 40px;
+}
+
+.welcome-badge-5 {
+    background-color: var(--color-forest-900);
+    border: 3px solid var(--color-gold-500);
+    box-shadow: 0 10px 25px -5px rgba(10, 51, 41, 0.3);
+    border-radius: 1.25rem;
+}
+
+/* Quote Request Form Card */
+.quote-request-card {
+    background-color: #ffffff;
+    border-radius: 1.5rem;
+    box-shadow: 0 20px 50px -15px rgba(10, 51, 41, 0.12);
+    border: 1px solid var(--color-sage-100);
+    overflow: hidden;
+}
+
+.quote-card-header {
+    background-color: var(--color-forest-950);
+    border-bottom: 1.5px solid var(--color-gold-500);
+}
+
+.form-input-corporate {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #1e293b;
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.form-input-corporate:focus {
+    background-color: #ffffff;
+    border-color: var(--color-forest-900);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(10, 51, 41, 0.08);
+}
+
+/* Alternating Sage Backgrounds */
+.bg-sage-alternate {
+    background-color: var(--color-sage-50);
+}
+
+/* Dark Green Service Cards block */
+.service-card-dark {
+    background-color: var(--color-forest-950);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.4);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.service-card-dark:hover {
+    background-color: var(--color-forest-900);
+    border-color: var(--color-gold-500);
+    transform: translateY(-5px);
+    box-shadow: 0 25px 45px -15px rgba(10, 51, 41, 0.3);
+}
+
+.service-icon-holder {
+    background-color: var(--color-forest-900);
+    border: 1.5px solid var(--color-gold-500);
+    color: #ffffff;
+}
+
+.service-card-dark:hover .service-icon-holder {
+    background-color: var(--color-gold-500);
+    color: var(--color-forest-950);
+    border-color: #ffffff;
+}
+
+/* Scroll Triggered Animations */
+.reveal-fade-in {
+    opacity: 0;
+    transform: scale(0.97);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-active {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+/* WhatsApp Floating Pulse Button */
+.whatsapp-float {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 999;
+    background-color: #25d366;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.08);
+    background-color: #20ba5a;
+    box-shadow: 0 12px 30px rgba(37, 211, 102, 0.4);
+}
+
+/* WhatsApp Pulse Wave */
+.whatsapp-pulse {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #25d366;
+    opacity: 0.7;
+    z-index: -1;
+    animation: wp-pulse 2s infinite;
+}
+
+@keyframes wp-pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1.6);
+        opacity: 0;
+    }
+}
+
+/* Slider indicators styling */
+.slider-dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.4);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.slider-dot.active {
+    background-color: var(--color-gold-500);
+    width: 24px;
+    border-radius: 4px;
+}
+
+.slider-dot:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .slider-dot {
+        transition: none;
+    }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-forest-900);
+}

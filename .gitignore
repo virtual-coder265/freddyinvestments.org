@@ -1,0 +1,33 @@
+# Legacy SQLite database (pre-MySQL migration)
+storage/database.sqlite
+storage/database.sqlite-shm
+storage/database.sqlite-wal
+
+# Uploaded files
+public/uploads/*
+!public/uploads/.gitkeep
+
+# Logs
+storage/logs/*
+!storage/logs/.gitkeep
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# PHP
+vendor/
+composer.lock
+
+# Session files
+storage/sessions/*
+!storage/sessions/.gitkeep

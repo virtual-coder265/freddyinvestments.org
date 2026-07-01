@@ -1,0 +1,62 @@
+# Disable directory indexing
+Options -Indexes
+
+# Allow Apache to serve this project when it is mounted via a junction/symlink
+Options +FollowSymLinks
+DirectoryIndex public/index.php
+
+# Security Headers (root-level responses)
+<IfModule mod_headers.c>
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
+</IfModule>
+
+# Block direct access to sensitive files at project root
+<IfModule mod_authz_core.c>
+    <FilesMatch "^(\.env|setup-database\.php|admin-test\.php|migrate-sqlite-to-mysql\.php)$">
+        Require all denied
+    </FilesMatch>
+    <FilesMatch "\.(sqlite|db|md|txt)$">
+        Require all denied
+    </FilesMatch>
+</IfModule>
+<IfModule !mod_authz_core.c>
+    <FilesMatch "^(\.env|setup-database\.php|admin-test\.php|migrate-sqlite-to-mysql\.php)$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+    <FilesMatch "\.(sqlite|db|md|txt)$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Force HTTPS on production domain
+    RewriteCond %{HTTPS} off
+    RewriteCond %{HTTP_HOST} ^(www\.)?freddyinvestments\.org$ [NC]
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Block sensitive directories even when files exist on disk
+    RewriteRule ^(storage|src|docs)(/|$) - [F,L]
+    RewriteRule ^\.env - [F,L]
+
+    # Block setup/dev scripts from non-local access
+    RewriteCond %{REMOTE_ADDR} !^127\.0\.0\.1$
+    RewriteCond %{REMOTE_ADDR} !^::1$
+    RewriteRule ^(setup-database|admin-test|migrate-sqlite-to-mysql)\.php$ - [F,L]
+
+    # If requesting the root URL itself, rewrite to public/index.php
+    RewriteRule ^$ public/index.php [L]
+
+    # Rewrite other requests to public/index.php if they do not exist physically in root
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ public/index.php?route=$1 [QSA,L]
+</IfModule>
